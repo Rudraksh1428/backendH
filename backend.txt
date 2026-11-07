@@ -1,0 +1,17 @@
+ package.json file contains the list of dependencies and scripts in a project
+
+ package.lock.json specifies their respective versions
+
+ Dependencies are packages required for your application to run in production (runtime), such as Express or Axios.
+
+ DevDependencies are packages needed only during the development, testing, or build process, such as Jest, ESLint, or Webpac
+
+ npm - node package manager
+
+ fs - filesystem 
+
+ version - major/minor/patch  (3.4.2)
+
+ the ^ in version installs the latest version
+
+ 
