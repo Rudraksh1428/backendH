@@ -44,3 +44,7 @@ http - 80 & https - 443 //default values
 5xx - server error 
 500 - internal server error 
 502 - bad gateway 
+
+body(or payload) - contains the actual data which goes to the server
+
+ 

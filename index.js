@@ -42,4 +42,19 @@ program.parse();
 
 //-------------------------------------------------
 
- 
+const express = require("express");
+
+const app = express();
+
+//route handler
+
+app.get("/", function (req, res) {
+  res.send("hello");
+});
+
+app.get("/hello", function (req, res) {
+  res.send("hello hello");
+});
+
+
+app.listen(3000);
