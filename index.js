@@ -19,6 +19,7 @@ console.log(path.join(__dirname,'index.js')) //prints C:\Users\RUDRAKSH\Desktop\
 ! assignment 1 !
 */
 
+/*
 const fs = require ('fs')
 const {Command} = require('commander')
 const program = new Command()
@@ -37,3 +38,8 @@ program.command('count').description('count num of lines').argument('<file>','fi
 })
 
 program.parse();
+*/
+
+//-------------------------------------------------
+
+ 

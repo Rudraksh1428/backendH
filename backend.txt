@@ -14,4 +14,33 @@
 
  the ^ in version installs the latest version
 
- 
+ http - u send a req , the server processes it , then it sends a response . the way machine communicates
+
+ping is used to get ip address 
+
+ports are endpoints to specify particular processes running on a system
+
+create - post
+read - get
+update - put
+delete - delete
+
+http - 80 & https - 443 //default values
+
+2xx - success
+200 - successful
+204 - success but no content is shown
+
+3xx - redirection
+301 - moved to a new url
+304 - resource not modified
+
+4xx - client error
+400 - bad request ( server could not understand the request due to invalid syntax(like typo))
+401 - unauthorized (request requires user authentication)
+403 - forbidden refuses to authorise the request
+404 - not found
+
+5xx - server error 
+500 - internal server error 
+502 - bad gateway 
