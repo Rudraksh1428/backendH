@@ -333,3 +333,20 @@ errorCount = errorCount + 1;
 })
 
 app.listen(3000); */
+
+//-------------------------------------------------
+
+const express = require("express");
+
+const app = express();
+
+app.get("/multiply", function (req, res) {
+  const c = req.query.c;
+  const d = req.query.d;
+
+  res.json({
+    answer: c * d,
+  });
+});
+
+app.listen(3000);
