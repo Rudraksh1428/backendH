@@ -340,13 +340,31 @@ const express = require("express");
 
 const app = express();
 
+app.get("/sum", function (req, res) {
+  const a = parseInt(req.query.a);
+  const b = parseInt(req.query.b);
+
+  res.json({
+ answer :  a+b
+  });
+});
+
 app.get("/multiply", function (req, res) {
-  const c = req.query.c;
-  const d = req.query.d;
+  const c = parseInt(req.query.c);
+  const d = parseInt(req.query.d);
 
   res.json({
     answer: c * d,
   });
 });
 
+
+app.get("/sum/:e/:f", function (req, res) {
+  const e = parseInt(req.params.e);
+  const f = parseInt(req.params.f);
+
+  res.json({
+ answer :  e+f
+  });
+});
 app.listen(3000);
