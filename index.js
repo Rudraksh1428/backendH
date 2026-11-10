@@ -199,7 +199,7 @@ app.listen(3000);
 
 //using middle ware
 
-const express = require("express");
+/* const express = require("express");
 
 const app = express();
 
@@ -216,16 +216,48 @@ function isOldEnoughMiddleware(req, res, next) {
 
 app.use(isOldEnoughMiddleware) //instead of passing it individually // triggers for those who are below this app/.use
 
-app.get("/hello", /*isOldEnoughMiddleware,*/ function (req, res) {
+app.get("/hello", isOldEnoughMiddleware, function (req, res) {
   res.json({
     msg: "success",
   });
 });
 
-app.get("/hello2", /*isOldEnoughMiddleware,*/ function (req, res) {
+app.get("/hello2", isOldEnoughMiddleware, function (req, res) {
   res.json({
     msg: "success x2",
   });
 });
+
+app.listen(3000); */
+
+//-------------------------------------------------
+
+/* 
+!assignment!
+*/
+
+const express = require("express");
+
+const app = express();
+
+let requestCount = 0;
+
+app.use(function(req,res,next)
+{
+  requestCount = requestCount + 1;
+  next(); 
+})
+
+app.get('/user',function(res,req){
+  res.statusCode(200).json({name:"john"})
+})
+
+app.post('/user',function(res,req){
+  res.statusCode(200).json({msg:"hello ji"})
+})
+
+app.get('/requestCount',function(res,req){
+  res.statusCode(200).json({requestCount})
+})
 
 app.listen(3000);
