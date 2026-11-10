@@ -42,7 +42,7 @@ program.parse();
 
 //-------------------------------------------------
 
-const express = require("express");
+/*const express = require("express");
 
 const app = express();
 
@@ -57,4 +57,28 @@ app.get("/hello", function (req, res) {
 });
 
 
+app.listen(3000); //which port */
+
+//-------------------------------------------------
+
+const express = require("express");
+
+function calculatedSum(n) {
+  let ans = 0;
+  for (let i = 1; i <= n; i++) {
+    ans += i;
+  }
+  return ans;
+}
+
+const app = express();
+
+app.get("/", function (req, res) {
+  const n = req.query.n;
+  const ans = calculatedSum(n);
+  res.send(ans.toString());
+});
+
 app.listen(3000);
+
+//-------------------------------------------------
