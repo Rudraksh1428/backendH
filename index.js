@@ -83,7 +83,7 @@ app.listen(3000);*/
 
 //-------------------------------------------------
 
-const express = require("express");
+/* const express = require("express");
 const app = express();
 
 var users = [
@@ -153,6 +153,79 @@ res.json({
 })
 });
 
-app.listen(3000);
+app.listen(3000);  */
 
 //-------------------------------------------------
+
+/*
+const express = require("express");
+
+const app = express();
+
+function isOldEnough(age) {
+  if (age >= 15) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+app.get("/hello", function (req, res) {
+  if (isOldEnough(req.query.age)) {
+    res.json({
+      msg: "success",
+    });
+  } else {
+    res.status(411).json({
+      msg: "nuh uh",
+    });
+  }
+});
+
+app.get("/hello2", function (req, res) {
+  if (isOldEnough(req.query.age)) {
+    res.json({
+      msg: "success",
+    });
+  } else {
+    res.status(411).json({
+      msg: "nuh uh",
+    });
+  }
+});
+
+app.listen(3000);
+*/
+
+//using middle ware
+
+const express = require("express");
+
+const app = express();
+
+function isOldEnoughMiddleware(req, res, next) {
+  const age = req.query.age;
+  if (age >= 15) {
+    next();
+  } else {
+    res.json({
+      msg: "nuh-uh",
+    });
+  }
+}
+
+app.use(isOldEnoughMiddleware) //instead of passing it individually // triggers for those who are below this app/.use
+
+app.get("/hello", /*isOldEnoughMiddleware,*/ function (req, res) {
+  res.json({
+    msg: "success",
+  });
+});
+
+app.get("/hello2", /*isOldEnoughMiddleware,*/ function (req, res) {
+  res.json({
+    msg: "success x2",
+  });
+});
+
+app.listen(3000);

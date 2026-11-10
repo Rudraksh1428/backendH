@@ -45,6 +45,6 @@ http - 80 & https - 443 //default values
 500 - internal server error 
 502 - bad gateway 
 
-body(or payload) - contains the actual data which goes to the server
+Body(or payload) - contains the actual data which goes to the server
 
- 
+Middleware refers to functions that sit between the incoming HTTP request (req) and the final response (res) for Authentication & Authorization , Data Parsing: Converts raw incoming request data into usable JavaScript objects etc , end req res cycle
