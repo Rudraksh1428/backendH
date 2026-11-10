@@ -236,7 +236,7 @@ app.listen(3000); */
 !assignment!
 */
 
-const express = require("express");
+/* const express = require("express");
 
 const app = express();
 
@@ -260,4 +260,34 @@ app.get('/requestCount',function(res,req){
   res.statusCode(200).json({requestCount})
 })
 
-app.listen(3000);
+app.listen(3000); */
+
+//-------------------------------------------------
+
+/* 
+ !assignment ratelimmiter!
+ */
+
+const express = require("express");
+
+const app = express();
+
+let numberOfRequestsForUser = {};
+serInterval(() => {
+  numberOfRequestsForUser = {};
+}, 1000);
+
+app.use(function (req, res, next) {
+  const userId = req.headers["user-id"];
+  if (numberOfRequestsForUser[userId]) {
+    numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] + 1;
+    if (numberOfRequestsForUser[userId] > 5) {
+      res.status(404).send("no");
+    } else {
+      next();
+    }
+  } else {
+    numberOfRequestsForUser[userId] = 1;
+    next();
+  }
+});
