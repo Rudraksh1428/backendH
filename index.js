@@ -268,7 +268,7 @@ app.listen(3000); */
  !assignment ratelimmiter!
  */
 
-const express = require("express");
+/*const express = require("express");
 
 const app = express();
 
@@ -291,3 +291,45 @@ app.use(function (req, res, next) {
     next();
   }
 });
+*/
+
+//-------------------------------------------------
+
+/* 
+!assignment! errorCount
+*/
+
+/* const request = require('supertest');
+const asssert = require('assert');
+const express = require("express");
+
+const app = express();
+
+let errorCount = 0;
+
+app.get('/user',function(req,res)
+{
+  throw new Error("user not found");
+  res.status(200).json({name : 'john'})
+})
+
+app.post('/user',function(req,res)
+{
+  throw new Error("user not found");
+  res.status(200).json({msg : 'dummy user'})
+})
+
+app.get('/errorCount',function(req,res)
+{
+  throw new Error("user not found");
+  res.status(200).json({errorCount})
+})
+
+--error middleware--
+
+app.use(function(err,req,res,next){
+res.status(404).send({})
+errorCount = errorCount + 1;
+})
+
+app.listen(3000); */
