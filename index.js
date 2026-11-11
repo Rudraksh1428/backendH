@@ -336,7 +336,7 @@ app.listen(3000); */
 
 //-------------------------------------------------
 
-const express = require("express");
+/* const express = require("express");
 
 const app = express();
 
@@ -367,4 +367,42 @@ app.get("/sum/:e/:f", function (req, res) {
  answer :  e+f
   });
 });
+app.listen(3000); */
+
+//-------------------------------------------------
+
+const express = require("express");
+const app = express();
+
+let requestCount = 0;
+
+function requestIncrease(req, res, next) {
+  requestCount = requestCount + 1;
+  console.log(`request number : ${requestCount}`);
+  req.requestCount = requestCount;
+  next(); 
+}
+
+app.use(requestIncrease);
+
+app.get("/sum", function (req, res) {
+  const a = parseInt(req.query.a);
+  const b = parseInt(req.query.b);
+
+  res.json({
+    answer: a + b,
+    count: req.requestCount,
+  });
+});
+
+app.get("/multiply", function (req, res) {
+  const c = parseInt(req.query.c);
+  const d = parseInt(req.query.d);
+
+  res.json({
+    answer: c * d,
+    count: req.requestCount,
+  });
+});
+
 app.listen(3000);
