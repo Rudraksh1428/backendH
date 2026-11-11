@@ -48,3 +48,5 @@ http - 80 & https - 443 //default values
 Body(or payload) - contains the actual data which goes to the server
 
 Middleware refers to functions that sit between the incoming HTTP request (req) and the final response (res) for Authentication & Authorization , Data Parsing: Converts raw incoming request data into usable JavaScript objects etc , ends req res cycle
+
+express.json() middleware parses incoming bodies that are formatted as json
