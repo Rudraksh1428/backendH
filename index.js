@@ -459,13 +459,38 @@ app.listen(3000); */
 
 //-------------------------------------------------
 
-const express = require("express");
+/*const express = require("express");
 
 const app = express();
 
 //in express , if u want to send json data , first u have to parse it ,  express.json() is used to parse it or instead of express.json we can use bodyParser.json
 
 const middleware = express.json();
+app.use(middleware);
+
+app.post("/sum", function (req, res) {
+  const a = parseInt(req.body.a);
+  const b = parseInt(req.body.b);
+
+  res.json({
+    answer: a + b,
+  });
+});
+
+app.listen(3000); */
+
+//-------------------------------------------------
+const cors = require("cors")
+const express = require("express");
+
+const app = express();
+
+const middleware = express.json();
+app.use(cors(
+  {
+    domains : ["",""] //particular domains allowed
+  }
+));
 app.use(middleware);
 
 app.post("/sum", function (req, res) {
