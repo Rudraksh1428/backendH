@@ -53,3 +53,12 @@ express.json() middleware parses incoming bodies that are formatted as json
 
 cors - cross origin resource sharing  
 
+Stateful token: A random ID (like k9x2m0...) where your user data is stored on the serve-pprblm is we are hitting db too much so we use jwt
+
+Stateless token: A self-contained token (like a JWT) where your user data is stored inside the token itself and locked with a secret signature—like a stamped passport that the server can verify without checking a database.
+
+<Stateful token: The server remembers who you are (stored in its database). You just hold a random key (abc123).
+
+Stateless token: The server forgets you, because your token itself holds your info and proves who you are..>
+
+jwt are  - jwt.verify jwt.sign

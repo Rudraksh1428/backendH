@@ -614,7 +614,7 @@ app.post("/signin", function (req, res) {
 app.listen(3000); */
 
 //-------------------------------------------------
- 
+
 /*
 const express = require ('express')
 
@@ -723,7 +723,7 @@ app.post("/signin", function (req, res) {
 app.get('/me', function(req,res)
 {
   const token = req.headers.token;
-  const foundUser = null;
+  let foundUser = null;
   for (let i = 0; i < users.length; i++) {
     if (users[i].token ==token) {
       foundUser = users[i];
@@ -743,3 +743,86 @@ app.get('/me', function(req,res)
 app.listen(3000) */
 
 //-------------------------------------------------
+
+const express = require ('express')
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = ""
+const app = express ()
+
+app.use(express.json());
+
+const users = [];
+
+app.post("/signup", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (users.find((u) => u.username === username)) {
+    res.json({
+      message: "already signed up",
+    });
+    return;
+  }
+  if (username.length < 5 || password.length < 8) {
+    res.json({
+      message: "username small",
+    });
+    return;
+  }
+  users.push({
+    username: username,
+    password: password,
+  });
+  res.json({
+    message: "you are signed up",
+  });
+});
+
+app.post("/signin", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  let foundUser = null;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].username == username && users[i].password == password) {
+      foundUser = users[i];
+    }
+  }
+  if (foundUser) {
+    const token = jwt.sign({
+      username:username,
+    },JWT_SECRET); //convert their username to a jwt
+  
+    res.json({
+      message: token,
+    });
+  }
+  else {
+    res.status(403).send({
+      message : "invalid"
+    })
+  }
+});
+
+app.get('/me', function(req,res)
+{
+  const token = req.headers.token;
+  const decodedInformation = jwt.verify(token , JWT_SECRET);
+  const username = decodedInformation.username;
+  let foundUser = null;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].token ==token) {
+      foundUser = users[i];
+    }
+  }
+    if(foundUser){
+    res.json ({
+     username: foundUser.username,
+    password: foundUser.password,})
+  } else { 
+    res.status(401).send({
+      message : "token invalid"
+    })
+  }
+})
+
+app.listen(3000) 
