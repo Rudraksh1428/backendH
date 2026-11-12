@@ -480,7 +480,8 @@ app.post("/sum", function (req, res) {
 app.listen(3000); */
 
 //-------------------------------------------------
-const cors = require("cors")
+
+/*const cors = require("cors")
 const express = require("express");
 
 const app = express();
@@ -500,6 +501,114 @@ app.post("/sum", function (req, res) {
   res.json({
     answer: a + b,
   });
+});
+
+app.listen(3000);*/
+
+//-------------------------------------------------
+
+const express = require("express");
+
+const app = express();
+
+app.use(express.json());
+
+const users = [];
+
+function generateToken() {
+  let options = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
+
+  let token = "";
+  for (let i = 0; i < 32; i++) {
+    token += options[Math.floor(Math.random()) * options.length];
+  }
+
+  return token;
+}
+
+app.post("/signup", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (users.find((u) => u.username === username)) {
+    res.json({
+      message: "already signed up",
+    });
+    return;
+  }
+  if (username.length < 5 || password.length < 8) {
+    res.json({
+      message: "username small",
+    });
+    return;
+  }
+  users.push({
+    username: username,
+    password: password,
+  });
+  res.json({
+    message: "you are signed in",
+  });
+});
+
+app.post("/signin", function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+  let foundUser = null;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].username == username && users[i].password == password) {
+      foundUser = users[i];
+    }
+  }
+  if (foundUser) {
+    const token = generateToken;
+    foundUser.token = token
+    res.json({
+      message: token,
+    });
+  }
+  else {
+    res.status(403).send({
+      message : "invalid"
+    })
+  }
 });
 
 app.listen(3000);

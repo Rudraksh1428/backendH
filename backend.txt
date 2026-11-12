@@ -52,3 +52,4 @@ Middleware refers to functions that sit between the incoming HTTP request (req) 
 express.json() middleware parses incoming bodies that are formatted as json
 
 cors - cross origin resource sharing  
+
