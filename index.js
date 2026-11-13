@@ -829,108 +829,82 @@ app.get('/me', function(req,res)
 app.listen(3000)  */
 
 //-------------------------------------------------
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
-/* const express = require("express")
+const JWT_SECRET = "super_secret_jwt_key_123";
+const app = express();
 
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = ""
-const app = express ()
+app.use(cors());
 
-function logger(req,res,next){
-console.log(`request came from ${req.method}`);
-next()
+function logger(req, res, next) {
+  console.log(`request came from ${req.method} ${req.url}`);
+  next();
 }
 
-app.use(express.json(),logger);
+app.use(express.json(), logger);
 
 const users = [];
 
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/frontend/index.html");
+});
+
 app.post("/signup", function (req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
+  const { username, password } = req.body;
 
   if (users.find((u) => u.username === username)) {
-    res.json({
-      message: "already signed up",
-    });
-    return;
+    return res.status(400).json({ message: "Already signed up" });
   }
-  if (username.length < 5 || password.length < 8) {
-    res.json({
-      message: "username small",
-    });
-    return;
+  if (!username || username.length < 5 || !password || password.length < 8) {
+    return res.status(400).json({ message: "Username must be 5+ chars and password 8+ chars" });
   }
-  users.push({
-    username: username,
-    password: password,
-  });
-  res.json({
-    message: "you are signed up",
-  });
+
+  users.push({ username, password });
+  res.json({ message: "You are signed up" });
 });
 
-app.post("/signin", function (req, res)  {
-  const username = req.body.username;
-  const password = req.body.password;
-  let foundUser = null;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username == username && users[i].password == password) {
-      foundUser = users[i];
-    }
-  }
+app.post("/signin", function (req, res) {
+  const { username, password } = req.body;
+  const foundUser = users.find((u) => u.username === username && u.password === password);
+
   if (foundUser) {
-    const token = jwt.sign({
-      username:username,
-    },JWT_SECRET); 
-  
-    res.json({
-      message: token,
-    });
-  }
-  else {
-    res.status(403).send({
-      message : "invalid"
-    })
+    const token = jwt.sign({ username }, JWT_SECRET);
+    res.json({ token });
+  } else {
+    res.status(403).json({ message: "Invalid credentials" });
   }
 });
 
-function authMiddleware(req,res,next){
+function authMiddleware(req, res, next) {
   const token = req.headers.token;
-  const decodedData = jwt.verify(token,JWT_SECRET)
-  if((decodedData.username)){
-    req.username = decodedData.username;
-    next()
+  if (!token) {
+    return res.status(401).json({ message: "Token missing" });
   }
-  else{
-    res.json({
-      message : "not logged"
-    })
+
+  try {
+    const decodedData = jwt.verify(token, JWT_SECRET);
+    req.username = decodedData.username;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
   }
 }
 
-
-
-app.get('/me',authMiddleware , logger , function(req,res)
-{
-  let foundUser = null;
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username == req.username) {
-      foundUser = users[i];
-    }
+app.get("/me", authMiddleware, function (req, res) {
+  const foundUser = users.find((u) => u.username === req.username);
+  if (foundUser) {
+    res.json({
+      username: foundUser.username,
+      password: foundUser.password,
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
   }
-    if(foundUser){
-    res.json ({
-     username: foundUser.username,
-    password: foundUser.password,})
-  } else { 
-    res.status(401).send({
-      message : "token invalid"
-    })
-  }
-})
+});
 
-app.listen(3000) */
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));
 
 //-------------------------------------------------
 
