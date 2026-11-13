@@ -830,15 +830,18 @@ app.listen(3000)  */
 
 //-------------------------------------------------
 
-const express = require("express")
+/* const express = require("express")
 
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = ""
 const app = express ()
 
+function logger(req,res,next){
+console.log(`request came from ${req.method}`);
+next()
+}
 
-
-app.use(express.json(),);
+app.use(express.json(),logger);
 
 const users = [];
 
@@ -906,7 +909,9 @@ function authMiddleware(req,res,next){
   }
 }
 
-app.get('/me', function(req,res)
+
+
+app.get('/me',authMiddleware , logger , function(req,res)
 {
   let foundUser = null;
   for (let i = 0; i < users.length; i++) {
@@ -925,6 +930,6 @@ app.get('/me', function(req,res)
   }
 })
 
-app.listen(3000) 
+app.listen(3000) */
 
 //-------------------------------------------------
