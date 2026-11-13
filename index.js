@@ -836,20 +836,9 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRET = ""
 const app = express ()
 
-function authMiddleware(req,res,next){
-  const token = req.headers.token;
-  const decodedData = jwt.verify(token,JWT_SECRET)
-  if((decodedData.username)){
-    next()
-  }
-  else{
-    res.json({
-      message : "not logged"
-    })
-  }
-}
 
-app.use(express.json());
+
+app.use(express.json(),);
 
 const users = [];
 
@@ -903,14 +892,25 @@ app.post("/signin", function (req, res)  {
   }
 });
 
+function authMiddleware(req,res,next){
+  const token = req.headers.token;
+  const decodedData = jwt.verify(token,JWT_SECRET)
+  if((decodedData.username)){
+    req.username = decodedData.username;
+    next()
+  }
+  else{
+    res.json({
+      message : "not logged"
+    })
+  }
+}
+
 app.get('/me', function(req,res)
 {
-  const token = req.headers.token;
-  const decodedInformation = jwt.verify(token , JWT_SECRET);
-  const username = decodedInformation.username;
   let foundUser = null;
   for (let i = 0; i < users.length; i++) {
-    if (users[i].token ==token) {
+    if (users[i].username == req.username) {
       foundUser = users[i];
     }
   }
