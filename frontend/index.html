@@ -79,6 +79,28 @@
         } catch (err) {
           alert(err.response?.data?.message || "Signin failed");
         }
+        async function getUserInformation() {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        try {
+          const response = await axios.get("http://localhost:3000/me", {
+            headers: { token },
+          });
+          document.getElementById("info").innerText =
+            `Username: ${response.data.username}, Password: ${response.data.password}`;
+        } catch (err) {
+          document.getElementById("info").innerText = "Not logged in";
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        document.getElementById("info").innerText = "";
+        alert("Logged out!");
+      }
+
+      getUserInformation();
       }
     </script>
   </body>
