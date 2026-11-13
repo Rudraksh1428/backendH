@@ -25,11 +25,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auth websitet</title>
 </head>
+<script src="https://unpkg.com/axios@1.20.0/dist/axios.min.js"></script>
+
+<script>
+  async function signup(){
+const username = document.getElementById("signup-username").value;
+const password = document.getElementById("signup-password").value;
+
+const response = await axios.post("https://localhost:3000/signup",{
+username : username ,
+password : password,
+})
+alert('signedin')
+  }
+</script>
 <body>
   <div>
     signup
-    <input type="text" name="username" placeholder="Username">
-     <input type="password" name="password" placeholder="password">
+    <input id="signup-username" type="text" name="username" placeholder="Username">
+     <input id="signup-password" type="password" name="password" placeholder="password">
      <button onclick="signup()">Submit</button>
   </div>
   <div>
