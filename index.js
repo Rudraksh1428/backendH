@@ -909,7 +909,7 @@ app.listen(3000, () => console.log("Server running on http://localhost:3000"));*
 
 //-------------------------------------------------
 
-const jwt = require('jsonwebtoken')
+/*const jwt = require('jsonwebtoken')
 
 const value = {
   name : 'ruhhdyy',
@@ -922,4 +922,17 @@ const token = jwt.sign(value,'secret')  //creating token
 console.log(token)
 
 const  verifiedValue = jwt.verify("eyJhSdUD2wfZgN5jRHEcE6xV7RZrqlc","secret")
-console.log(verifiedValue) 
+console.log(verifiedValue) */
+
+//-------------------------------------------------
+
+try { 
+  let a;
+  console.log(a.length);
+  console.log("try block")
+}catch(e){
+console.log("catch statement")
+}
+console.log("hi")
+
+//-------------------------------------------------
