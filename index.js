@@ -829,7 +829,8 @@ app.get('/me', function(req,res)
 app.listen(3000)  */
 
 //-------------------------------------------------
-const express = require("express");
+
+/* const express = require("express");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
@@ -904,7 +905,21 @@ app.get("/me", authMiddleware, function (req, res) {
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));*/
 
 //-------------------------------------------------
 
+const jwt = require('jsonwebtoken')
+
+const value = {
+  name : 'ruhhdyy',
+  accountNumber : 1428
+
+}
+
+const token = jwt.sign(value,'secret')  //creating token
+
+console.log(token)
+
+const  verifiedValue = jwt.verify("eyJhSdUD2wfZgN5jRHEcE6xV7RZrqlc","secret")
+console.log(verifiedValue) 
