@@ -926,13 +926,38 @@ console.log(verifiedValue) */
 
 //-------------------------------------------------
 
-try { 
+/* try { 
   let a;
   console.log(a.length);
   console.log("try block")
 }catch(e){
 console.log("catch statement")
 }
-console.log("hi")
+console.log("hi") */
 
 //-------------------------------------------------
+
+/*
+!assignment!
+*/
+
+const jwt = require('jsonwebtoken')
+const jwtPassword = 'secret'
+const zod = require('zod')
+
+const emailSchema = zod.string().email();
+const passwordSchema = zod.string().min(6);
+
+function signJwt(username,password)
+{
+  const usernameResponse = emailSchema.safeParse(username);
+  const passwordResponse = passwordSchema.safeParse(password)
+  if(!usernameResponse.success || !passwordResponse.success)
+  {
+    return nulll
+  }
+  const signature = jwt.sign({
+    username
+  },jwtPassword)
+}
+
