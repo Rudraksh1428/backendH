@@ -941,32 +941,45 @@ console.log("hi") */
 !assignment!
 */
 
-const jwt = require('jsonwebtoken')
-const jwtPassword = 'secret'
-const zod = require('zod')
+const jwt = require("jsonwebtoken");
+const jwtPassword = "secret";
+const zod = require("zod");
 
 const emailSchema = zod.string().email();
 const passwordSchema = zod.string().min(6);
 
-function signJwt(username,password)
-{
+function signJwt(username, password) {
   const usernameResponse = emailSchema.safeParse(username);
-  const passwordResponse = passwordSchema.safeParse(password)
-  if(!usernameResponse.success || !passwordResponse.success)
-  {
-    return nulll
+  const passwordResponse = passwordSchema.safeParse(password);
+  if (!usernameResponse.success || !passwordResponse.success) {
+    return nulll;
   }
-  const signature = jwt.sign({
-    username
-  },jwtPassword)
+  const signature = jwt.sign(
+    {
+      username,
+    },
+    jwtPassword,
+  );
 }
 
-function decodeJwt(token)
-{
-const decoded = jwt.decode(token)
-if(decoded){
-  return true
-}else{
-  return false
+function decodeJwt(token) {
+  const decoded = jwt.decode(token);
+  if (decoded) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
+function verifyJwt(token) {
+  try {
+    const verified = jwt.verify(token, jwtPassword);
+    if (verified) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log("nope");
+  }
 }
