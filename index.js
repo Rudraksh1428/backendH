@@ -961,3 +961,12 @@ function signJwt(username,password)
   },jwtPassword)
 }
 
+function decodeJwt(token)
+{
+const decoded = jwt.decode(token)
+if(decoded){
+  return true
+}else{
+  return false
+}
+}
