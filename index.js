@@ -1014,28 +1014,51 @@ module.exports = {
 
 const express = require("express");
 
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = "fsregtrhgytuj";
+
 const { UserModel, TodoModel } = require(".db");
 
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 app.post("/signup", async function (req, res) {
-   const email = req.body.email;
+  const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
 
   await UserModel.insert({
-   email: email ,
-    password : password,
-    name : name,
-  })
+    email: email,
+    password: password,
+    name: name,
+  });
   res.json({
-    message : "logged in"
-  })
+    message: "logged in",
+  });
 });
 
-app.post("/signin", function (req, res) {});
+app.post("/signin", function (req, res) {
+  const email = req.body.email;
+  const password = req.body.password;
+  const user = UserModel.findOne({
+    email: email,
+    password: password,
+  });
+  if (user) {
+    const token = jwt.sign({
+      id : user._id
+    });
+    res.json({
+      token
+    });
+  } else {
+    res.status(403).json({
+      message: "incorrect credentials",
+    });
+  }
+});
 
 app.post("/todo", function (req, res) {});
 
