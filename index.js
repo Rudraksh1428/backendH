@@ -1050,7 +1050,7 @@ app.post("/signin", async function (req, res) {
   });
   if (user) {
     const token = jwt.sign({
-      id : user._id
+      id : user._id.toString()
     },JWT_SECRET);
     res.json({
      token :  token
@@ -1064,14 +1064,27 @@ app.post("/signin", async function (req, res) {
 
 app.post("/todo",auth , function (req, res) {
   const userId = req.userId;
+  const title = req.body.title;
+  TodoModel.create({
+    title,userId    
+  })
+  res.json({
+    userId : userId
+  })
 });
 
-app.get("/todos",auth , function (req, res) {
+app.get("/todos",auth , async function (req, res) {
     const userId = req.userId;
+    const todos = await TodoModel.find({
+      userId : userId
+    })
+    res.json({
+      todos
+    })
 });
 
 function auth(req,res,next){
-  const token = req.header.token;
+  const token = req.headers.token;
   const decodedData = jwt.verify(token,JWT_SECRET)
   if(decodedData){
     req.userId = decodedData.userId
