@@ -986,7 +986,7 @@ function verifyJwt(token) {
 
 //-------------------------------------------------
 
-const mongoose = require("mongoose");
+/* const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -1007,6 +1007,21 @@ const UserModel = mongoose.model("users", User);
 const TodoModel = mongoose.model("todo", Todo);
 
 module.exports = {
-  UserModel,
-  TodoModel,
-};
+  UserModel,TodoModel, 
+}; */
+
+//-------------------------------------------------
+
+const express = require('express')
+
+const app = express()
+
+app.post("/signup", function(req,res){})
+
+app.post("/signin", function(req,res){})
+
+app.post("/todo", function(req,res){})
+
+app.get("/todo", function(req,res){})
+
+app.listen(3000)
