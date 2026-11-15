@@ -1012,16 +1012,33 @@ module.exports = {
 
 //-------------------------------------------------
 
-const express = require('express')
+const express = require("express");
 
-const app = express()
+const { UserModel, TodoModel } = require(".db");
 
-app.post("/signup", function(req,res){})
+const app = express();
 
-app.post("/signin", function(req,res){})
+app.use(express.json())
 
-app.post("/todo", function(req,res){})
+app.post("/signup", async function (req, res) {
+   const email = req.body.email;
+  const password = req.body.password;
+  const name = req.body.name;
 
-app.get("/todo", function(req,res){})
+  await UserModel.insert({
+   email: email ,
+    password : password,
+    name : name,
+  })
+  res.json({
+    message : "logged in"
+  })
+});
 
-app.listen(3000)
+app.post("/signin", function (req, res) {});
+
+app.post("/todo", function (req, res) {});
+
+app.get("/todo", function (req, res) {});
+
+app.listen(3000);
