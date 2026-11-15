@@ -1020,6 +1020,8 @@ const JWT_SECRET = "fsregtrhgytuj";
 
 const { UserModel, TodoModel } = require(".db");
 
+mongoose.connect("mongodb+srv://rudrakshbaranwal2804_db_user:<pswd >@cluster0.o6mnqxy.mongodb.net/todo")
+
 const app = express();
 
 app.use(express.json());
