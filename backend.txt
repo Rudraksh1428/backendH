@@ -62,3 +62,5 @@ Stateless token: A self-contained token (like a JWT) where your user data is sto
 Stateless token: The server forgets you, because your token itself holds your info and proves who you are..>
 
 jwt are  - jwt.verify jwt.sign
+
+Hashing transforms a password into an irreversible, random-looking string (e.g., rudy $\rightarrow$ dwqc234r). However, because the same password always generates the exact same hash, two users with the same password will have identical hashes. To solve this, we add a salt—a unique random string added to each password before hashing—ensuring every hash is unique.
