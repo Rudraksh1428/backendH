@@ -1014,6 +1014,8 @@ module.exports = {
 
 const express = require("express");
 
+const {z} = require('zod')
+
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
@@ -1031,10 +1033,18 @@ const app = express();
 app.use(express.json());
 
 app.post("/signup", async function (req, res) {
-  const email = req.body.email;
+
+const requiredBody = z.object({
+email: z.string().min(3).max(100).email(),
+  name : z.string().min(3).max(100) ,
+  password : z.string().min(3).max(100),
+})
+  
+  const email = req.body.email; 
   const password = req.body.password;
   const name = req.body.name;
 
+  let errorThrown = false ;
   try {
     const hashedPassword = await bcrypt.hash(password, 5);
 
@@ -1044,11 +1054,16 @@ app.post("/signup", async function (req, res) {
       name: name,
     });
   } catch (e) {
-    console.log("no")
+    res.json({
+    message: "exists",
+  });
+  errorThrown = true;
   }
-  res.json({
+ if(!errorThrown){
+   res.json({
     message: "logged in",
   });
+ }
 });
 
 app.post("/signin", async function (req, res) {
