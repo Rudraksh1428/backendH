@@ -64,3 +64,5 @@ Stateless token: The server forgets you, because your token itself holds your in
 jwt are  - jwt.verify jwt.sign
 
 Hashing transforms a password into an irreversible, random-looking string (e.g., rudy $\rightarrow$ dwqc234r). However, because the same password always generates the exact same hash, two users with the same password will have identical hashes. To solve this, we add a salt—a unique random string added to each password before hashing—ensuring every hash is unique.
+
+In Zod, .parse() returns the validated data directly if valid, or throws a ZodError if invalid (requiring a try/catch block). .safeParse() never throws; instead, it returns an object—either { success: true, data } or { success: false, error }—letting you handle errors with a simple if/else check. Use .parse() for trusted data and .safeParse() for user inputs.

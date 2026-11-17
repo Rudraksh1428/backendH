@@ -1039,6 +1039,16 @@ email: z.string().min(3).max(100).email(),
   name : z.string().min(3).max(100) ,
   password : z.string().min(3).max(100),
 })
+
+//const parseData = requiredBody.parse(req.body)
+const parseDataWithSuccess = requiredBody.safeParse(req.body)
+
+if(!parseDataWithSuccess.success){
+  res.json({
+    message : "incorrect format"
+  })
+return
+}
   
   const email = req.body.email; 
   const password = req.body.password;
