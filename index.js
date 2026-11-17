@@ -1014,7 +1014,7 @@ module.exports = {
 
 const express = require("express");
 
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
@@ -1035,13 +1035,17 @@ app.post("/signup", async function (req, res) {
   const password = req.body.password;
   const name = req.body.name;
 
-  const hashedPassword = await bcrypt.hash(password ,5)
+  try {
+    const hashedPassword = await bcrypt.hash(password, 5);
 
-  await UserModel.insert({
-    email: email,
-    password: hashedPassword,
-    name: name,
-  });
+    await UserModel.create({
+      email: email,
+      password: hashedPassword,
+      name: name,
+    });
+  } catch (e) {
+    console.log("no")
+  }
   res.json({
     message: "logged in",
   });
@@ -1055,15 +1059,14 @@ app.post("/signin", async function (req, res) {
     password: password,
   });
 
-if(!user)
-{
-  res.status(403).json({
-    message : "dne"
-  })
-  return
-}
+  if (!user) {
+    res.status(403).json({
+      message: "dne",
+    });
+    return;
+  }
 
-const passwrodMatch = bcrypt.compare(password , user.password)
+  const passwrodMatch = await bcrypt.compare(password, user.password);
 
   if (passwrodMatch) {
     const token = jwt.sign(
@@ -1120,4 +1123,3 @@ function auth(req, res, next) {
 app.listen(3000);
 
 //-------------------------------------------------
-
