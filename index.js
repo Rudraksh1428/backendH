@@ -1054,7 +1054,18 @@ app.post("/signin", async function (req, res) {
     email: email,
     password: password,
   });
-  if (user) {
+
+if(!user)
+{
+  res.status(403).json({
+    message : "dne"
+  })
+  return
+}
+
+const passwrodMatch = bcrypt.compare(password , user.password)
+
+  if (passwrodMatch) {
     const token = jwt.sign(
       {
         id: user._id.toString(),
