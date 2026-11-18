@@ -1,7 +1,5 @@
-const express = require('express')
-const Router = express.Router;
-
-const courseRouter = Router()
+const { Router } = require('express');
+const courseRouter = Router();
 
 courseRouter.post('/course/purchase', function (req,res)
 {
