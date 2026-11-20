@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const userRouter = Router();
+const {userModel} = require ("../db")
 const { z } = require("zod");
+const bcrypt = require("bcrypt");
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -9,7 +11,7 @@ const signupSchema = z.object({
   lastName: z.string().min(1),
 });
 
-userRouter.post("/signup", function (req, res) {
+userRouter.post("/signup", async function (req, res) {
   const result = signupSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -21,6 +23,24 @@ userRouter.post("/signup", function (req, res) {
 
   const { email, password, firstName, lastName } = req.body;
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    await userModel.create({
+      email: email,
+      password: hashedPassword,
+      firstName: firstName,
+      lastName: lastName,
+    });
+
+    res.json({
+      message: "You are signed up",
+    });
+  } catch (e) {
+    res.status(403).json({
+      message: "User already exists",
+    });
+  }
 });
 
 userRouter.post('/signin', function (req,res)
