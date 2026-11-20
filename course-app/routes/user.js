@@ -1,8 +1,10 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const userRouter = Router();
-const {userModel} = require ("../db")
+const { userModel } = require("../db");
 const { z } = require("zod");
+const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt");
+const JWT_USER_PASSWORD= "sdf"
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -43,16 +45,29 @@ userRouter.post("/signup", async function (req, res) {
   }
 });
 
-userRouter.post('/signin', function (req,res)
-{
-  
+userRouter.post("/signin",async function (req, res) {
+   const { email, password} = req.body ;
+   const user = await userModel.find({
+    email : email ,
+    password : password
+   })
+   if(user){
+const token = jwt.sign({
+  id : user._id
+},JWT_USER_PASSWORD)
+res.json({
+  token : token
 })
+   } else {
+res.status(403).json({
+  message : "incorrect"
+   })
+   }
 
-userRouter.get('/purchases', function (req,res)
-{
-  
-})
+});
+
+userRouter.get("/purchases", function (req, res) {});
 
 module.exports = {
-  userRouter : userRouter
-}
+  userRouter: userRouter,
+};
