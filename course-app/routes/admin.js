@@ -1,11 +1,11 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const adminRouter = Router();
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
-const {adminModel} = require('../db')
-const {JWT_ADMIN_PASSWORD}=require("../config")
-
+const { adminModel, courseModel } = require("../db");
+const { JWT_ADMIN_PASSWORD } = require("../config");
+import { adminMiddleware } from "../middleware/admin";
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -14,9 +14,8 @@ const signupSchema = z.object({
   lastName: z.string().min(1),
 });
 
-adminRouter.post('/signup',async function (req,res)
-{
-const result = signupSchema.safeParse(req.body);
+adminRouter.post("/signup", async function (req, res) {
+  const result = signupSchema.safeParse(req.body);
 
   if (!result.success) {
     return res.status(400).json({
@@ -45,11 +44,10 @@ const result = signupSchema.safeParse(req.body);
       message: "User already exists",
     });
   }
-})
+});
 
-adminRouter.post('/signin',async function (req,res)
-{
-   const { email, password } = req.body;
+adminRouter.post("/signin", async function (req, res) {
+  const { email, password } = req.body;
   const admin = await adminModel.findOne({
     email: email,
   });
@@ -68,7 +66,7 @@ adminRouter.post('/signin',async function (req,res)
       {
         id: admin._id,
       },
-      JWT_ADMIN_PASSWORD
+      JWT_ADMIN_PASSWORD,
     );
 
     res.json({
@@ -79,23 +77,30 @@ adminRouter.post('/signin',async function (req,res)
       message: "Incorrect credentials",
     });
   }
-})
+});
 
-adminRouter.post('/course', function (req,res)
-{
-  
-})
+adminRouter.post("/course", adminMiddleware, async function (req, res) {
+  const adminId = req.userId;
 
-adminRouter.put('/course', function (req,res)
-{
-  
-})
+  const { title, description, price, imageURL, creatorId } = req.body;
 
-adminRouter.get('/course/bulk', function (req,res)
-{
-  
-})
+const course =  await courseModel.create({
+    title: title,
+    description: description,
+    price: price,
+    imageURL: imageURL,
+    creatorId: adminId,
+  });
+  res.json ({
+    message : "course created",
+    courseId : course._id
+  })
+});
+
+adminRouter.put("/course", function (req, res) {});
+
+adminRouter.get("/course/bulk", function (req, res) {});
 
 module.exports = {
-adminRouter : adminRouter
-}
+  adminRouter: adminRouter,
+};
