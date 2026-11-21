@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken')
 const { z } = require("zod");
 const bcrypt = require("bcrypt");
 const {adminModel} = require('../db')
+const {JWT_ADMIN_PASSWORD}=require("../config")
 
-const JWT_ADMIN_PASSWORD="wefrt"
 
 const signupSchema = z.object({
   email: z.string().email(),

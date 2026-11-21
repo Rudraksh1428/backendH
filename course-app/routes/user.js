@@ -4,8 +4,8 @@ const { userModel } = require("../db");
 const { z } = require("zod");
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt");
-const JWT_USER_PASSWORD= "sdf"
 
+const {JWT_USER_PASSWORD}=require("../config")
 const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
