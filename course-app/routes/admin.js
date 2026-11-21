@@ -1,9 +1,18 @@
 const { Router } = require('express');
 const adminRouter = Router();
-
+const jwt = require('jsonwebtoken')
+const { z } = require("zod");
+const bcrypt = require("bcrypt");
 const {adminModel} = require('../db')
 
 const JWT_ADMIN_PASSWORD="wefrt"
+
+const signupSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+});
 
 adminRouter.post('/signup',async function (req,res)
 {
